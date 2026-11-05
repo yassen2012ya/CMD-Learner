@@ -25,6 +25,20 @@
     <p><code>sfc /scannow</code> - اصلاح النظام <button onclick="copy('sfc /scannow')">نسخ</button></p>
   </div>
   <button onclick="downloadPDF()">حمل ك PDF</button>
+  <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})">رجوع لأعلى</button>
+
+  <div id="comments">
+    <!-- Disqus هنا -->
+    <div id="disqus_thread"></div>
+    <script>
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://cmd-learner.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.min.js"></script>
   <script>
@@ -36,8 +50,12 @@
       const element = document.getElementById('commands');
       html2pdf().from(element).save('CMD-Learner.pdf');
     }
-    document.getElementById('search').addEventListener('input', function() {
-      // Search logic هنا
+    document.getElementById('search').addEventListener('input', function(e) {
+      const search = e.target.value.toLowerCase();
+      document.querySelectorAll('#commands p').forEach(p => {
+        const text = p.textContent.toLowerCase();
+        p.style.display = text.includes(search) ? '' : 'none';
+      });
     });
   </script>
 </body>
